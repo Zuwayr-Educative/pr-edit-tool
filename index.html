@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Editorial Assistant</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <div class="header-left">
+                <div class="header-title">
+                    <h1>Editorial Assistant</h1>
+                    <span class="header-subtitle">AI-Powered Content Proofreading</span>
+                </div>
+            </div>
+            <div class="header-center">
+                <img src="idBlCGqMMX_1765824035227.jpeg" alt="Educative Logo" class="header-logo">
+            </div>
+            <div class="header-right">
+                <button class="theme-toggle" id="apiKeyBtn" style="margin-right: 10px;">
+                    <span>🔑</span>
+                    <span>API Key</span>
+                </button>
+                <button class="theme-toggle" id="themeToggle">
+                    <span id="themeIcon">🌙</span>
+                    <span id="themeText">Dark Mode</span>
+                </button>
+            </div>
+        </div>
+
+        <div class="content-wrapper">
+            <!-- Status Bar (Moved to top) -->
+            <div class="status-bar" style="margin-bottom: 24px;">
+                <span class="status-text" id="statusText">Ready</span>
+                <span class="status-text" id="statusInfo"></span>
+            </div>
+
+            <!-- Toolbar (Card Type + Actions) -->
+            <div class="toolbar">
+                <!-- Card Type Selector -->
+                <div class="card-type-section" style="margin-bottom: 0; flex: 1;">
+                    <label for="cardType">Card Type:</label>
+                    <select id="cardType" class="card-type-dropdown">
+                        <option value="none">No limit</option>
+                        <option value="text-only">Text-only (390 chars)</option>
+                        <option value="text-image">Text+image (250 chars)</option>
+                        <option value="highlight">Highlight card (150 chars)</option>
+                        <option value="compare">Compare-cards (330 chars)</option>
+                        <option value="true-false">True-false (180 chars)</option>
+                    </select>
+                </div>
+
+                <!-- Action Buttons (Moved here) -->
+                <div class="action-buttons" style="margin-bottom: 0;">
+                    <button class="btn btn-primary btn-large" id="proofreadBtn" disabled>
+                        <span id="proofreadBtnText">✨ Proofread</span>
+                    </button>
+                    <button class="btn btn-warning btn-large" id="trimBtn" disabled style="display: none;">
+                        <span id="trimBtnText">✂️ Trim Text</span>
+                    </button>
+                    <button class="btn btn-secondary btn-large" id="copyBtn">
+                        📋 Copy
+                    </button>
+                    <button class="btn btn-secondary btn-large" id="diffBtn" disabled>
+                        🔄 Diff
+                    </button>
+                </div>
+            </div>
+
+            <div style="height: 24px;"></div>
+
+            <!-- Main Content Area -->
+            <div class="content-area">
+                <!-- Input Panel -->
+                <div class="panel">
+                    <h2>Input Text</h2>
+                    <div class="textarea-container">
+                        <textarea id="inputText" placeholder="Paste your course or lesson text here..."></textarea>
+                        <div class="char-count" id="charCount">0 characters</div>
+                    </div>
+                </div>
+
+                <!-- Output Panel -->
+                <div class="panel">
+                    <h2>Edited Text</h2>
+                    <div class="textarea-container">
+                        <textarea id="outputText" placeholder="Edited text will appear here..." readonly></textarea>
+                        <div class="char-count">
+                            <span id="outputCharCount">0 characters</span>
+                            <span id="charLimitInfo" class="char-limit-info"></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Diff Viewer -->
+            <div class="diff-container" id="diffContainer">
+                <h2>Changes (Input → Output)</h2>
+                <div class="diff-content" id="diffContent"></div>
+            </div>
+
+            <!-- Copy Confirmation Toast -->
+            <div class="copy-confirmation" id="copyConfirmation">
+                ✓ Copied to clipboard!
+            </div>
+        </div>
+    </div>
+
+    <!-- API Key Modal -->
+    <div class="modal-overlay hidden" id="apiKeyModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h2>Gemini API Key</h2>
+                <button class="close-modal" id="closeApiKeyModal">×</button>
+            </div>
+            <div class="modal-body">
+                <p style="margin-bottom: 16px; color: var(--text-secondary);">
+                    Enter your Google Gemini API key to enable proofreading. The key is stored locally in your browser.
+                </p>
+                <div class="api-key-controls" style="flex-direction: column; align-items: stretch;">
+                    <input type="password" id="apiKeyInput" class="api-key-input"
+                        placeholder="Enter your Gemini API key" style="margin-bottom: 16px;">
+                    <div style="display: flex; gap: 10px; justify-content: flex-end;">
+                        <button class="btn btn-secondary" id="clearKeyBtn">Clear Key</button>
+                        <button class="btn btn-primary" id="saveKeyBtn">Save & Close</button>
+                    </div>
+                    <span class="key-status hidden" id="keyStatus" style="margin-top: 10px; justify-content: center;">✓
+                        Key saved</span>
+                </div>
+                <p class="security-note" style="text-align: center;">
+                    Your API key is sent directly to Google's servers.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
