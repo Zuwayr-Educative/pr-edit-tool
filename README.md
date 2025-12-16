@@ -2,7 +2,8 @@
 
 A powerful, client-side AI tool designed to help course authors and editors proofread, format, and shorten educational content using Google's Gemini models.
 
-![Screenshot of the application](./idBlCGqMMX_1765824035227.jpeg)
+### Web App (No Installation)
+Visit [https://zuwayr-educative.github.io/pr-edit-tool/](https://zuwayr-educative.github.io/pr-edit-tool/)
 
 ## Features
 
