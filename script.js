@@ -171,11 +171,10 @@ const CARD_LIMITS = {
 
 // API Model Configuration - Cascading fallback chain
 const MODEL_CHAIN = [
-    'gemini-3-pro-preview',        // Level 0: Primary (newest, most capable)
-    'gemini-3-flash-preview',      // Level 1: First fallback (newer flash)
-    'gemini-2.5-flash',            // Level 2: Second fallback (stable flash)
-    'gemini-2.5-flash-lite',       // Level 3: Third fallback (lighter flash)
-    'gemma-2-27b-it'               // Level 4: Final fallback (open source)
+    'gemini-3-flash-preview',      // Level 0: Primary (newest flash)
+    'gemini-2.5-flash',            // Level 1: First fallback (stable flash)
+    'gemini-2.5-flash-lite',       // Level 2: Second fallback (lighter flash)
+    'gemma-2-27b-it'               // Level 3: Final fallback (open source)
 ];
 
 // Helper function to make API calls with cascading fallbacks
