@@ -17,6 +17,7 @@ Visit [https://zuwayr-educative.github.io/pr-edit-tool/](https://zuwayr-educativ
   - Highlight Card (150 chars)
   - Compare Cards (330 chars)
   - True/False (180 chars)
+- **📄 File Processing**: Upload TXT, MD, DOC, or DOCX files and get proofread markdown output.
 - **🌓 Dark Mode**: Fully responsive UI with toggleable dark/light themes.
 - **💪 Robust API Handling**: Automatically falls back to lighter models (`Gemini Flash Lite` → `Gemma 2`) if the primary model hits rate limits.
 
@@ -42,6 +43,7 @@ Visit [https://zuwayr-educative.github.io/pr-edit-tool/](https://zuwayr-educativ
 - **HTML5 & CSS3**: Custom responsive design with CSS variables for theming.
 - **Vanilla JavaScript**: Zero dependencies. Uses ES6+ features (Async/Await, SSE).
 - **Google Gemini API**: Direct integration via `fetch` for AI processing.
+- **Harper.js v1.2.0 (CDN)**: Grammar checking with 500+ rules for spelling, grammar, and style.
 
 ## License
 
