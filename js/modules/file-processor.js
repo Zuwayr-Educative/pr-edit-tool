@@ -1,7 +1,7 @@
 import { SYSTEM_PROMPT } from './config.js';
 import { fetchWithFallback } from './api-client.js';
 import { setStatus } from './ui-helpers.js';
-import { generateFileDiff, computeDiff } from './diff-viewer.js';
+import { generateFileDiff, computeDiff, initFileDiffViewer } from './diff-viewer.js';
 
 // Module state
 let currentFile = null;
@@ -16,6 +16,14 @@ export function initFileProcessor() {
     const proofreadFileBtn = document.getElementById('proofreadFileBtn');
     const downloadMarkdownBtn = document.getElementById('downloadMarkdownBtn');
     const fileDiffBtn = document.getElementById('fileDiffBtn');
+
+    // Initialize diff viewer with toggle button
+    initFileDiffViewer();
+
+    // Listen for diff regeneration event (triggered by toggle button)
+    document.addEventListener('regenerateFileDiff', () => {
+        generateFileDiffLocal();
+    });
 
     // Browse button click
     browseFileBtn.addEventListener('click', (e) => {
@@ -67,27 +75,6 @@ export function initFileProcessor() {
     // Download markdown
     downloadMarkdownBtn.addEventListener('click', () => {
         downloadMarkdown();
-    });
-
-    // File diff button
-    fileDiffBtn.addEventListener('click', () => {
-        const fileDiffContainer = document.getElementById('fileDiffContainer');
-        const isActive = fileDiffContainer.classList.contains('active');
-
-        if (isActive) {
-            // Hide diff view
-            fileDiffContainer.classList.remove('active');
-            fileDiffBtn.textContent = '🔄 View Diff';
-        } else {
-            // Show diff view
-            generateFileDiffLocal();
-            fileDiffContainer.classList.add('active');
-            fileDiffBtn.textContent = '❌ Hide Diff';
-            // Scroll to diff
-            setTimeout(() => {
-                fileDiffContainer.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-            }, 100);
-        }
     });
 }
 
@@ -201,7 +188,7 @@ async function proofreadFile() {
         const startTime = Date.now();
 
         // Modified prompt for markdown output
-        const markdownPrompt = SYSTEM_PROMPT + `\n\n**CRITICAL OUTPUT REQUIREMENT**: You MUST output the result as properly formatted Markdown. Use Markdown syntax for:
+        const markdownPrompt = SYSTEM_PROMPT + `\n\n**ADDITIONAL OUTPUT REQUIREMENT**: You MUST output the result as properly formatted Markdown. Use Markdown syntax for:
 - Headings (# ## ###)
 - Bold (**text**)
 - Italic (*text*)
@@ -224,8 +211,11 @@ The output should be clean, well-structured Markdown that can be saved as a .md 
                 parts: [{ text: `--- DOCUMENT START ---\n${content}\n--- DOCUMENT END ---` }]
             }],
             generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: estimatedOutputTokens
+                temperature: 1.0,
+                maxOutputTokens: estimatedOutputTokens,
+                thinkingConfig: {
+                    thinkingLevel: "low"
+                }
             }
         };
 

@@ -9,7 +9,9 @@ import {
     copyBtn,
     copyConfirmation,
     proofreadBtn,
-    inputText
+    inputText,
+    personaBlogInputText,
+    personaBlogProofreadBtn
 } from './dom-elements.js';
 
 // Output Character Count and Limit Checking
@@ -75,4 +77,14 @@ export function updateProofreadButtonState() {
     const hasApiKey = localStorage.getItem('gemini_api_key');
     const hasInput = inputText.value.trim().length > 0;
     proofreadBtn.disabled = !hasApiKey || !hasInput;
+}
+
+// Update Persona Blog Proofread Button State
+export function updatePersonaBlogProofreadButtonState() {
+    if (!personaBlogInputText || !personaBlogProofreadBtn) {
+        return; // Elements not available yet
+    }
+    const hasApiKey = localStorage.getItem('gemini_api_key');
+    const hasInput = personaBlogInputText.value.trim().length > 0;
+    personaBlogProofreadBtn.disabled = !hasApiKey || !hasInput;
 }

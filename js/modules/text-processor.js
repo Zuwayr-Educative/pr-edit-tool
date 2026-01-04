@@ -11,10 +11,12 @@ import {
     diffBtn,
     diffContainer,
     statusInfo,
-    cardTypeSelect
+    cardTypeSelect,
+    sensitivityBtn
 } from './dom-elements.js';
 import { setStatus, updateOutputCharCount, showCopyConfirmation, updateProofreadButtonState } from './ui-helpers.js';
-import { generateDiff } from './diff-viewer.js';
+import { generateDiff, initDiffViewer } from './diff-viewer.js';
+import { clearSensitivityHighlights } from './sensitivity-checker.js';
 
 async function proofreadText() {
     const apiKey = localStorage.getItem('gemini_api_key');
@@ -37,6 +39,8 @@ async function proofreadText() {
     outputText.value = '';
     diffBtn.disabled = true;
     copyBtn.disabled = true; // Disable copy while proofreading
+    sensitivityBtn.disabled = true; // Disable sensitivity checker while proofreading
+    clearSensitivityHighlights(); // Clear any previous sensitivity highlights
 
     // Hide diff viewer while proofreading
     diffContainer.classList.remove('active');
@@ -56,8 +60,11 @@ async function proofreadText() {
                 }
             ],
             generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: 8192
+                temperature: 1.0,
+                maxOutputTokens: 8192,
+                thinkingConfig: {
+                    thinkingLevel: "low"
+                }
             }
         };
 
@@ -68,6 +75,8 @@ async function proofreadText() {
         const modelIndex = MODEL_CHAIN.indexOf(model);
         if (modelIndex > 0) {
             const modelNames = {
+                'gemini-3-pro-preview': 'Gemini 3 Pro',
+                'gemini-3-flash-preview': 'Gemini 3 Flash',
                 'gemini-2.5-flash': 'Gemini 2.5 Flash',
                 'gemini-2.5-flash-lite': 'Gemini 2.5 Flash Lite',
                 'gemma-2-27b-it': 'Gemma 2 27B'
@@ -113,6 +122,7 @@ async function proofreadText() {
         setStatus('Proofreading complete', 'success');
         statusInfo.textContent = `Completed in ${elapsedTime}s`;
         diffBtn.disabled = false;
+        sensitivityBtn.disabled = false; // Enable sensitivity checker after proofreading
 
         // Check character limits (this will also enable copy button)
         updateOutputCharCount();
@@ -222,8 +232,11 @@ ${currentText}`;
                 }
             ],
             generationConfig: {
-                temperature: 0.3,
-                maxOutputTokens: 8192
+                temperature: 1.0,
+                maxOutputTokens: 8192,
+                thinkingConfig: {
+                    thinkingLevel: "low"
+                }
             }
         };
 
@@ -234,6 +247,8 @@ ${currentText}`;
         const modelIndex = MODEL_CHAIN.indexOf(model);
         if (modelIndex > 0) {
             const modelNames = {
+                'gemini-3-pro-preview': 'Gemini 3 Pro',
+                'gemini-3-flash-preview': 'Gemini 3 Flash',
                 'gemini-2.5-flash': 'Gemini 2.5 Flash',
                 'gemini-2.5-flash-lite': 'Gemini 2.5 Flash Lite',
                 'gemma-2-27b-it': 'Gemma 2 27B'
@@ -324,6 +339,9 @@ ${currentText}`;
 }
 
 export function initTextProcessor() {
+    // Initialize diff viewer with toggle button
+    initDiffViewer();
+
     // Proofread button click handler
     proofreadBtn.addEventListener('click', async () => {
         await proofreadText();

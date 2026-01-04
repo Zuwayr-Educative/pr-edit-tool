@@ -61,3 +61,43 @@ export const fileDiffContent = document.getElementById('fileDiffContent');
 // Tab Navigation Elements
 export const tabs = document.querySelectorAll('.tab');
 export const tabContents = document.querySelectorAll('.tab-content');
+
+// Sensitivity Checker Elements
+export const sensitivityBtn = document.getElementById('sensitivityBtn');
+export const sensitivityBtnText = document.getElementById('sensitivityBtnText');
+export const sensitivityHintBanner = document.getElementById('sensitivityHintBanner');
+export const sensitivityIssueCount = document.getElementById('sensitivityIssueCount');
+export const dismissSensitivityHints = document.getElementById('dismissSensitivityHints');
+export const sensitivityHighlights = document.getElementById('sensitivityHighlights');
+
+// Sensitivity Popup Elements
+export const sensitivityPopup = document.getElementById('sensitivityPopup');
+export const sensitivityPopupTitle = document.getElementById('sensitivityPopupTitle');
+export const sensitivityPopupMessage = document.getElementById('sensitivityPopupMessage');
+export const sensitivityPopupSuggestions = document.getElementById('sensitivityPopupSuggestions');
+export const sensitivityPopupDismiss = document.getElementById('sensitivityPopupDismiss');
+export const sensitivityPopupClose = document.getElementById('sensitivityPopupClose');
+
+// Persona Blog Editor Elements
+export const personaBlogInputText = document.getElementById('personaBlogInputText');
+export const personaBlogOutputText = document.getElementById('personaBlogOutputText');
+export const personaBlogProofreadBtn = document.getElementById('personaBlogProofreadBtn');
+export const personaBlogProofreadBtnText = document.getElementById('personaBlogProofreadBtnText');
+export const personaBlogCopyBtn = document.getElementById('personaBlogCopyBtn');
+export const personaBlogDiffBtn = document.getElementById('personaBlogDiffBtn');
+export const personaBlogDiffContainer = document.getElementById('personaBlogDiffContainer');
+export const personaBlogStatusInfo = document.getElementById('statusInfo'); // Reusing the global status info
+
+// Persona Blog Sensitivity Checker Elements
+export const personaBlogSensitivityBtn = document.getElementById('personaBlogSensitivityBtn');
+export const personaBlogSensitivityBtnText = document.getElementById('personaBlogSensitivityBtnText');
+export const personaBlogSensitivityHintBanner = document.getElementById('personaBlogSensitivityHintBanner');
+export const personaBlogSensitivityIssueCount = document.getElementById('personaBlogSensitivityIssueCount');
+export const personaBlogDismissSensitivityHints = document.getElementById('personaBlogDismissSensitivityHints');
+export const personaBlogSensitivityHighlights = document.getElementById('personaBlogSensitivityHighlights');
+export const personaBlogSensitivityPopup = document.getElementById('personaBlogSensitivityPopup');
+export const personaBlogSensitivityPopupTitle = document.getElementById('personaBlogSensitivityPopupTitle');
+export const personaBlogSensitivityPopupMessage = document.getElementById('personaBlogSensitivityPopupMessage');
+export const personaBlogSensitivityPopupSuggestions = document.getElementById('personaBlogSensitivityPopupSuggestions');
+export const personaBlogSensitivityPopupDismiss = document.getElementById('personaBlogSensitivityPopupDismiss');
+export const personaBlogSensitivityPopupClose = document.getElementById('personaBlogSensitivityPopupClose');

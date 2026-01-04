@@ -43,6 +43,10 @@
                 <span>📄</span>
                 <span>File Processor</span>
             </button>
+            <button class="tab-button" data-tab="persona-blog">
+                <span>✍️</span>
+                <span>Persona Blog Editor</span>
+            </button>
         </div>
 
         <div class="content-wrapper">
@@ -55,130 +59,172 @@
             <!-- Tab Content Container -->
             <div class="tab-content active" id="text-editor-tab">
 
-            <!-- Toolbar (Card Type + Actions) -->
-            <div class="toolbar">
-                <!-- Card Type Selector -->
-                <div class="card-type-section">
-                    <label for="cardType">Card Type:</label>
-                    <select id="cardType" class="card-type-dropdown">
-                        <option value="none">No limit</option>
-                        <option value="text-only">Text-only (390 chars)</option>
-                        <option value="text-image">Text+image (250 chars)</option>
-                        <option value="highlight">Highlight card (150 chars)</option>
-                        <option value="compare">Compare-cards (330 chars)</option>
-                        <option value="true-false">True-false (180 chars)</option>
-                    </select>
+                <!-- Toolbar (Card Type + Actions) -->
+                <div class="toolbar">
+                    <!-- Card Type Selector -->
+                    <div class="card-type-section">
+                        <label for="cardType">Card Type:</label>
+                        <select id="cardType" class="card-type-dropdown">
+                            <option value="none">No limit</option>
+                            <option value="text-only">Text-only (390 chars)</option>
+                            <option value="text-image">Text+image (250 chars)</option>
+                            <option value="highlight">Highlight card (150 chars)</option>
+                            <option value="compare">Compare-cards (330 chars)</option>
+                            <option value="true-false">True-false (180 chars)</option>
+                        </select>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-success btn-large" id="grammarBtn">
+                            <span id="grammarBtnText">✓ Quick Spell Check (Free)</span>
+                        </button>
+                        <button class="btn btn-primary btn-large" id="proofreadBtn" disabled>
+                            <span id="proofreadBtnText">✨ Proofread</span>
+                        </button>
+                        <button class="btn btn-warning btn-large" id="trimBtn" disabled style="display: none;">
+                            <span id="trimBtnText">✂️ Trim Text</span>
+                        </button>
+                        <button class="btn btn-secondary btn-large" id="copyBtn" disabled>
+                            📋 Copy
+                        </button>
+                        <button class="btn btn-secondary btn-large" id="diffBtn" disabled>
+                            🔄 Diff
+                        </button>
+                        <button class="btn btn-info btn-large" id="sensitivityBtn" disabled>
+                            <span id="sensitivityBtnText">🔍 Check Sensitivity</span>
+                        </button>
+                    </div>
                 </div>
 
-                <!-- Action Buttons -->
-                <div class="action-buttons">
-                    <button class="btn btn-success btn-large" id="grammarBtn">
-                        <span id="grammarBtnText">✓ Quick Spell Check (Free)</span>
-                    </button>
-                    <button class="btn btn-primary btn-large" id="proofreadBtn" disabled>
-                        <span id="proofreadBtnText">✨ Proofread</span>
-                    </button>
-                    <button class="btn btn-warning btn-large" id="trimBtn" disabled style="display: none;">
-                        <span id="trimBtnText">✂️ Trim Text</span>
-                    </button>
-                    <button class="btn btn-secondary btn-large" id="copyBtn" disabled>
-                        📋 Copy
-                    </button>
-                    <button class="btn btn-secondary btn-large" id="diffBtn" disabled>
-                        🔄 Diff
-                    </button>
-                </div>
-            </div>
+                <div style="height: 24px;"></div>
 
-            <div style="height: 24px;"></div>
+                <!-- Main Content Area -->
+                <div class="content-area">
+                    <!-- Input Panel -->
+                    <div class="panel">
+                        <h2>Input Text</h2>
 
-            <!-- Main Content Area -->
-            <div class="content-area">
-                <!-- Input Panel -->
-                <div class="panel">
-                    <h2>Input Text</h2>
+                        <!-- Grammar Hint Banner -->
+                        <div class="grammar-hint-banner" id="grammarHintBanner">
+                            <div class="grammar-hint-text">
+                                <span>💡</span>
+                                <div>
+                                    <div><strong id="issueCount">0 issues</strong> found. Click underlined words to fix
+                                        them, or press <kbd>Esc</kbd> to dismiss.</div>
+                                    <div class="grammar-legend">
+                                        <span class="legend-item"><span class="legend-dot spell"></span>Spelling</span>
+                                        <span class="legend-item"><span class="legend-dot grammar"></span>Grammar</span>
+                                        <span class="legend-item"><span class="legend-dot style"></span>Style</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="grammar-hint-actions">
+                                <button class="grammar-hint-accept-all" id="acceptAllBtn">✓ Accept All</button>
+                                <button class="grammar-hint-dismiss" id="dismissHints">✕ Clear</button>
+                            </div>
+                        </div>
 
-                    <!-- Grammar Hint Banner -->
-                    <div class="grammar-hint-banner" id="grammarHintBanner">
-                        <div class="grammar-hint-text">
-                            <span>💡</span>
-                            <div>
-                                <div><strong id="issueCount">0 issues</strong> found. Click underlined words to fix them, or press <kbd>Esc</kbd> to dismiss.</div>
-                                <div class="grammar-legend">
-                                    <span class="legend-item"><span class="legend-dot spell"></span>Spelling</span>
-                                    <span class="legend-item"><span class="legend-dot grammar"></span>Grammar</span>
-                                    <span class="legend-item"><span class="legend-dot style"></span>Style</span>
+                        <div class="textarea-container">
+                            <div class="grammar-highlight-container">
+                                <div class="grammar-highlights" id="grammarHighlights"></div>
+                                <textarea id="inputText"
+                                    placeholder="Paste your course or lesson text here..."></textarea>
+                            </div>
+                            <div class="char-count" id="charCount">0 characters</div>
+                        </div>
+
+                        <!-- Grammar Issues Panel -->
+                        <div id="grammarPanel" class="grammar-panel" style="display: none;">
+                            <div class="grammar-header">
+                                <h3>Grammar Issues</h3>
+                                <span class="grammar-badge" id="grammarCount">0 issues</span>
+                            </div>
+                            <div id="grammarList" class="grammar-list"></div>
+                        </div>
+                    </div>
+
+                    <!-- Output Panel -->
+                    <div class="panel">
+                        <h2>Edited Text</h2>
+
+                        <!-- Sensitivity Hint Banner -->
+                        <div class="grammar-hint-banner" id="sensitivityHintBanner">
+                            <div class="grammar-hint-text">
+                                <span>🔍</span>
+                                <div>
+                                    <div><strong id="sensitivityIssueCount">0 issues</strong> found. Click highlighted words for details.</div>
+                                    <div class="grammar-legend">
+                                        <span class="legend-item"><span class="legend-dot" style="background: #dc3545;"></span>Direct Replacement</span>
+                                        <span class="legend-item"><span class="legend-dot" style="background: #fd7e14;"></span>Context Review</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="dismiss-hints-btn" id="dismissSensitivityHints">
+                                <span>×</span> Dismiss
+                            </button>
+                        </div>
+
+                        <div class="sensitivity-highlight-container">
+                            <div class="textarea-container">
+                                <textarea id="outputText" placeholder="Edited text will appear here..."></textarea>
+                                <div class="sensitivity-highlights" id="sensitivityHighlights"></div>
+                                <div class="char-count">
+                                    <span id="outputCharCount">0 characters</span>
+                                    <span id="charLimitInfo" class="char-limit-info"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="grammar-hint-actions">
-                            <button class="grammar-hint-accept-all" id="acceptAllBtn">✓ Accept All</button>
-                            <button class="grammar-hint-dismiss" id="dismissHints">✕ Clear</button>
-                        </div>
-                    </div>
-
-                    <div class="textarea-container">
-                        <div class="grammar-highlight-container">
-                            <div class="grammar-highlights" id="grammarHighlights"></div>
-                            <textarea id="inputText" placeholder="Paste your course or lesson text here..."></textarea>
-                        </div>
-                        <div class="char-count" id="charCount">0 characters</div>
-                    </div>
-
-                    <!-- Grammar Issues Panel -->
-                    <div id="grammarPanel" class="grammar-panel" style="display: none;">
-                        <div class="grammar-header">
-                            <h3>Grammar Issues</h3>
-                            <span class="grammar-badge" id="grammarCount">0 issues</span>
-                        </div>
-                        <div id="grammarList" class="grammar-list"></div>
                     </div>
                 </div>
 
-                <!-- Output Panel -->
-                <div class="panel">
-                    <h2>Edited Text</h2>
-                    <div class="textarea-container">
-                        <textarea id="outputText" placeholder="Edited text will appear here..." readonly></textarea>
-                        <div class="char-count">
-                            <span id="outputCharCount">0 characters</span>
-                            <span id="charLimitInfo" class="char-limit-info"></span>
-                        </div>
+                <!-- Diff Viewer -->
+                <div class="diff-container" id="diffContainer">
+                    <h2>Changes (Input → Output)</h2>
+                    <div class="diff-content" id="diffContent"></div>
+                </div>
+
+                <!-- Copy Confirmation Toast -->
+                <div class="copy-confirmation" id="copyConfirmation">
+                    ✓ Copied to clipboard!
+                </div>
+
+                <!-- Grammar Popup Card -->
+                <div class="grammar-popup" id="grammarPopup">
+                    <div class="grammar-popup-header">
+                        <span class="grammar-popup-title" id="grammarPopupTitle">Grammar Issue</span>
+                        <button class="grammar-popup-close" id="grammarPopupClose">×</button>
+                    </div>
+                    <div class="grammar-popup-message" id="grammarPopupMessage"></div>
+
+                    <!-- Multiple Suggestions (Harper-style pills) -->
+                    <div class="grammar-suggestions" id="grammarSuggestions"></div>
+
+                    <div class="grammar-popup-actions">
+                        <button class="grammar-popup-fix" id="grammarPopupFix"></button>
+                        <button class="grammar-popup-dismiss" id="grammarPopupDismiss">Dismiss</button>
+                    </div>
+                    <div class="grammar-popup-tip" id="grammarPopupTip" style="display: none;">
+                        <span class="grammar-popup-tip-icon">💡</span>
+                        <span id="grammarPopupTipText"></span>
                     </div>
                 </div>
-            </div>
 
-            <!-- Diff Viewer -->
-            <div class="diff-container" id="diffContainer">
-                <h2>Changes (Input → Output)</h2>
-                <div class="diff-content" id="diffContent"></div>
-            </div>
+                <!-- Sensitivity Popup Card -->
+                <div class="grammar-popup" id="sensitivityPopup">
+                    <div class="grammar-popup-header">
+                        <span class="grammar-popup-title" id="sensitivityPopupTitle">Sensitivity Issue</span>
+                        <button class="grammar-popup-close" id="sensitivityPopupClose">×</button>
+                    </div>
+                    <div class="grammar-popup-message" id="sensitivityPopupMessage"></div>
 
-            <!-- Copy Confirmation Toast -->
-            <div class="copy-confirmation" id="copyConfirmation">
-                ✓ Copied to clipboard!
-            </div>
+                    <!-- Suggestions (pills) -->
+                    <div class="grammar-suggestions" id="sensitivityPopupSuggestions"></div>
 
-            <!-- Grammar Popup Card -->
-            <div class="grammar-popup" id="grammarPopup">
-                <div class="grammar-popup-header">
-                    <span class="grammar-popup-title" id="grammarPopupTitle">Grammar Issue</span>
-                    <button class="grammar-popup-close" id="grammarPopupClose">×</button>
+                    <div class="grammar-popup-actions">
+                        <button class="grammar-popup-dismiss" id="sensitivityPopupDismiss">Dismiss</button>
+                    </div>
                 </div>
-                <div class="grammar-popup-message" id="grammarPopupMessage"></div>
-
-                <!-- Multiple Suggestions (Harper-style pills) -->
-                <div class="grammar-suggestions" id="grammarSuggestions"></div>
-
-                <div class="grammar-popup-actions">
-                    <button class="grammar-popup-fix" id="grammarPopupFix"></button>
-                    <button class="grammar-popup-dismiss" id="grammarPopupDismiss">Dismiss</button>
-                </div>
-                <div class="grammar-popup-tip" id="grammarPopupTip" style="display: none;">
-                    <span class="grammar-popup-tip-icon">💡</span>
-                    <span id="grammarPopupTipText"></span>
-                </div>
-            </div>
 
             </div><!-- End Text Editor Tab -->
 
@@ -220,10 +266,12 @@
                             <button class="btn btn-primary btn-large" id="proofreadFileBtn" disabled>
                                 <span id="proofreadFileBtnText">✨ Proofread & Convert to Markdown</span>
                             </button>
-                            <button class="btn btn-secondary btn-large" id="fileDiffBtn" disabled style="display: none;">
+                            <button class="btn btn-secondary btn-large" id="fileDiffBtn" disabled
+                                style="display: none;">
                                 🔄 View Diff
                             </button>
-                            <button class="btn btn-success btn-large" id="downloadMarkdownBtn" disabled style="display: none;">
+                            <button class="btn btn-success btn-large" id="downloadMarkdownBtn" disabled
+                                style="display: none;">
                                 <span>⬇️ Download Markdown</span>
                             </button>
                         </div>
@@ -256,6 +304,100 @@
                     </div>
                 </div>
             </div><!-- End File Processor Tab -->
+
+            <!-- Persona Blog Editor Tab -->
+            <div class="tab-content" id="persona-blog-tab">
+
+                <!-- Toolbar -->
+                <div class="toolbar">
+                    <div class="card-type-section">
+                        <span style="color: var(--text-secondary);">Polish your personal blog posts while preserving your voice</span>
+                    </div>
+
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <button class="btn btn-primary btn-large" id="personaBlogProofreadBtn" disabled>
+                            <span id="personaBlogProofreadBtnText">✨ Proofread Blog</span>
+                        </button>
+                        <button class="btn btn-secondary btn-large" id="personaBlogCopyBtn" disabled>
+                            📋 Copy
+                        </button>
+                        <button class="btn btn-secondary btn-large" id="personaBlogDiffBtn" disabled>
+                            🔄 View Diff
+                        </button>
+                        <button class="btn btn-info btn-large" id="personaBlogSensitivityBtn" disabled>
+                            <span id="personaBlogSensitivityBtnText">🔍 Check Sensitivity</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div style="height: 24px;"></div>
+
+                <!-- Main Content Area -->
+                <div class="content-area">
+                    <!-- Input Panel -->
+                    <div class="panel">
+                        <h2>Your Blog Post</h2>
+                        <div class="textarea-container">
+                            <textarea id="personaBlogInputText" placeholder="Paste your persona blog post here..."></textarea>
+                            <div class="char-count" id="personaBlogInputCharCount">0 characters</div>
+                        </div>
+                    </div>
+
+                    <!-- Output Panel -->
+                    <div class="panel">
+                        <h2>Proofread Blog</h2>
+
+                        <!-- Sensitivity Hint Banner -->
+                        <div class="grammar-hint-banner" id="personaBlogSensitivityHintBanner">
+                            <div class="grammar-hint-text">
+                                <span>🔍</span>
+                                <div>
+                                    <div><strong id="personaBlogSensitivityIssueCount">0 issues</strong> found. Click highlighted words for details.</div>
+                                    <div class="grammar-legend">
+                                        <span class="legend-item"><span class="legend-dot" style="background: #dc3545;"></span>Direct Replacement</span>
+                                        <span class="legend-item"><span class="legend-dot" style="background: #fd7e14;"></span>Context Review</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <button class="dismiss-hints-btn" id="personaBlogDismissSensitivityHints">
+                                <span>×</span> Dismiss
+                            </button>
+                        </div>
+
+                        <div class="sensitivity-highlight-container">
+                            <div class="textarea-container">
+                                <textarea id="personaBlogOutputText" placeholder="Proofread blog post will appear here..."></textarea>
+                                <div class="sensitivity-highlights" id="personaBlogSensitivityHighlights"></div>
+                                <div class="char-count" id="personaBlogOutputCharCount">0 characters</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Diff Viewer -->
+                <div class="diff-container" id="personaBlogDiffContainer">
+                    <h2>Changes (Original → Proofread)</h2>
+                    <div class="diff-content" id="personaBlogDiffContent"></div>
+                </div>
+
+                <!-- Sensitivity Popup Card -->
+                <div class="grammar-popup" id="personaBlogSensitivityPopup">
+                    <div class="grammar-popup-header">
+                        <span class="grammar-popup-title" id="personaBlogSensitivityPopupTitle">Sensitivity Issue</span>
+                        <button class="grammar-popup-close" id="personaBlogSensitivityPopupClose">×</button>
+                    </div>
+                    <div class="grammar-popup-message" id="personaBlogSensitivityPopupMessage"></div>
+
+                    <!-- Suggestions (pills) -->
+                    <div class="grammar-suggestions" id="personaBlogSensitivityPopupSuggestions"></div>
+
+                    <div class="grammar-popup-actions">
+                        <button class="grammar-popup-dismiss" id="personaBlogSensitivityPopupDismiss">Dismiss</button>
+                    </div>
+                </div>
+
+            </div><!-- End Persona Blog Editor Tab -->
 
         </div>
     </div>

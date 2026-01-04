@@ -6,8 +6,9 @@ import { initTabNavigation } from './modules/tab-navigation.js';
 import { initGrammar } from './modules/grammar-checker.js';
 import { initTextProcessor } from './modules/text-processor.js';
 import { initFileProcessor } from './modules/file-processor.js';
-import { initDiffViewer, initFileDiffViewer } from './modules/diff-viewer.js';
-import { updateOutputCharCount, updateProofreadButtonState } from './modules/ui-helpers.js';
+import { updateOutputCharCount, updateProofreadButtonState, updatePersonaBlogProofreadButtonState } from './modules/ui-helpers.js';
+import { initSensitivityChecker } from './modules/sensitivity-checker.js';
+import { initPersonaBlogProcessor } from './modules/persona-blog-processor.js';
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', async () => {
@@ -25,6 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Update proofread button state
     updateProofreadButtonState();
+    updatePersonaBlogProofreadButtonState();
 
     // Initialize grammar checker
     await initGrammar();
@@ -38,9 +40,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize text processor
     initTextProcessor();
 
-    // Initialize diff viewers
-    initDiffViewer();
-    initFileDiffViewer();
+    // Initialize sensitivity checker
+    initSensitivityChecker();
+
+    // Initialize persona blog processor
+    initPersonaBlogProcessor();
 
     // Initialize tab navigation
     initTabNavigation();
