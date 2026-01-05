@@ -13,11 +13,22 @@ export async function fetchWithFallback(apiKey, requestBody, fallbackLevel = 0) 
 
     console.log(`Trying model: ${model} (fallback level ${fallbackLevel})`);
 
+    // Remove thinkingConfig for models that don't support it
+    // Only Gemini 3 models support thinkingConfig
+    const modifiedRequestBody = { ...requestBody };
+    if (!model.startsWith('gemini-3')) {
+        // Remove thinkingConfig for Gemini 2.5 and Gemma models
+        if (modifiedRequestBody.generationConfig?.thinkingConfig) {
+            delete modifiedRequestBody.generationConfig.thinkingConfig;
+            console.log(`Removed thinkingConfig for ${model} (not supported)`);
+        }
+    }
+
     try {
         const response = await fetch(url, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(requestBody)
+            body: JSON.stringify(modifiedRequestBody)
         });
 
         console.log(`Response status: ${response.status}`);
@@ -33,6 +44,8 @@ export async function fetchWithFallback(apiKey, requestBody, fallbackLevel = 0) 
                 errorMessage.includes('does not exist') ||
                 errorMessage.includes('overloaded') ||
                 errorMessage.includes('capacity') ||
+                errorMessage.includes('not supported') ||
+                errorMessage.includes('Thinking level is not supported') ||
                 response.status === 404 ||
                 response.status === 503;
 
