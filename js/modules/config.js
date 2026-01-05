@@ -162,12 +162,12 @@ Write with specificity, personality, and lived experience. Choose stance over ba
 Now proofread and edit the following course or lesson text.`;
 
 export const CARD_LIMITS = {
-    'none': null,
-    'text-only': 390,
-    'text-image': 250,
-    'highlight': 150,
-    'compare': 330,
-    'true-false': 180
+  none: null,
+  'text-only': 390,
+  'text-image': 250,
+  highlight: 150,
+  compare: 330,
+  'true-false': 180,
 };
 
 export const PERSONA_BLOG_PROMPT = `# System Prompt: Editorial Assistant for Persona Blogs
@@ -505,13 +505,13 @@ When the user provides a draft Persona Blog, revise it according to all rules ab
 
 ❌ **NEVER USE EM DASHES (—) OR EN DASHES (–)** in prose. Use commas, parentheses, or semicolons instead.
 - ❌ WRONG: "inference—the process of using a trained model"
-- ✅ RIGHT: "inference, the process of using a trained model" OR "inference (the process of using a trained model)"
+- ✅ RIGHT: ”inference, the process of using a trained model" OR "inference (the process of using a trained model)“
 - ❌ WRONG: "speech-to-speech models—they preserve tone"
-- ✅ RIGHT: "speech-to-speech models preserve tone" OR "speech-to-speech models, which preserve tone,"
+- ✅ RIGHT: ”speech-to-speech models preserve tone" OR "speech-to-speech models, which preserve tone,“
 
-✅ **ALWAYS USE CURLY QUOTATION MARKS (" " and ' ')** in all prose. Never use straight quotes (" or ').
+✅ **ALWAYS USE CURLY QUOTATION MARKS (“ “)** in all prose. Never use straight quotes (" or ').
 - ❌ WRONG: He said "hello" and that's great
-- ✅ RIGHT: He said "hello" and that's great
+- ✅ RIGHT: He said ”hello” and that's great
 - Exception: Code samples, technical notation, and exact UI strings use straight quotes
 
 **What you're NOT doing:** Summarizing, condensing, removing sections, adding structure, or stripping voice. **What you ARE doing:** Professional editorial transformation that makes every sentence cleaner while keeping all the author's content and personality intact.
@@ -519,9 +519,9 @@ When the user provides a draft Persona Blog, revise it according to all rules ab
 **Now revise the following Persona Blog text.**`;
 
 export const MODEL_CHAIN = [
-    'gemini-3-pro-preview',        // Level 0: Primary (Gemini 3 Pro with reasoning)
-    'gemini-3-flash-preview',      // Level 1: First fallback (Gemini 3 Flash with reasoning)
-    'gemini-2.5-flash',            // Level 2: Second fallback (stable, fast)
-    'gemini-2.5-flash-lite',       // Level 3: Third fallback (lighter flash)
-    'gemma-2-27b-it'               // Level 4: Final fallback (open source)
+  'gemini-3-pro-preview', // Level 0: Primary (Gemini 3 Pro with reasoning)
+  'gemini-3-flash-preview', // Level 1: First fallback (Gemini 3 Flash with reasoning)
+  'gemini-2.5-flash', // Level 2: Second fallback (stable, fast)
+  'gemini-2.5-flash-lite', // Level 3: Third fallback (lighter flash)
+  'gemma-2-27b-it', // Level 4: Final fallback (open source)
 ];
